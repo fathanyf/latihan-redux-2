@@ -3,10 +3,16 @@ import moment from 'moment'
 import Head from 'next/head'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import { useContext, useEffect, useState } from 'react'
+import { Component, useContext, useEffect, useState } from 'react'
+import { Provider, useDispatch, useSelector } from 'react-redux'
 import { toast } from 'react-toastify'
+import { bindActionCreators } from 'redux'
 import { db } from '../../config/firebase'
 import { UserAuth } from '../../context/AuthContext'
+import { actionCreators } from '../../reducers/ResultReducers'
+import { getResult } from '../../actions/PostResultAction'
+
+
 
 const Account = () => {
     const router = useRouter()
@@ -26,7 +32,7 @@ const Account = () => {
     const [totalPoint, setTotalPoint] = useState([])
     const [playerId, setPlayerId] = useState('')
 
-    // fetch user data based on params
+
 
     const fetchUser = () => {
         const docRef = doc(db, 'users', id)
@@ -120,6 +126,13 @@ const Account = () => {
         getGameBoard()
     }, [])
 
+//redux result
+        const { getResultResult, getResultLoading, getResultError } = useSelector((state) => state.resultReducer)
+        const dispatch = useDispatch()
+
+    useEffect(() => {
+        dispatch(getResult())
+    }, [dispatch])
 
     return (
         <>
@@ -207,37 +220,48 @@ const Account = () => {
                                 </div>
                             </div>
                         </div>
+                        
                         <div className="col-md-6">
-                            <div className="card">
-                                <div className="card-header p-2 bg-danger">
-                                    <h2 className='text-center text-light'>Game Board</h2>
-                                </div>
-                                <div className="card-body">
-                                    {
-                                        gameData.map((e, index) => {
-                                            return (
-                                                <div className="direct-chat-msg" key={index}>
-                                                    <div className="direct-chat-infos clearfix">
-                                                        <span className="direct-chat-name float-left">{e.name}</span>
-                                                        <span className="direct-chat-timestamp float-right">{moment(e.createdAt.toDate()).fromNow()}</span>
-                                                    </div>
-                                                    {
-                                                        (!e.avatar) ? (
-                                                            <img className="direct-chat-img" src='/blank-avatar.svg' alt="message user image" />
-                                                        ) :
-                                                            <img className="direct-chat-img" src={e.avatar} alt="message user image" />
-                                                    }
-                                                    <div className="direct-chat-text">
-                                                        <p className='text-center'><i className="fas fa-gamepad"></i>: <span className="badge badge-secondary"> {e.playCount}</span><i className="fas fa-thumbs-up ml-4"></i> : <span className="badge badge-success">{e.userWin}</span>  <i className="fas fa-handshake ml-4"></i> : <span className="badge badge-info">{e.userDraw}</span>  <i className="fas fa-thumbs-down ml-4"></i> : <span className="badge badge-danger">{e.userLoss}</span>  <i className="fas fa-award ml-4"></i> : <span className="badge badge-primary">{e.point}</span></p>
-                                                    </div>
-                                                    <hr />
-                                                </div>
-                                            )
-                                        })
-                                    }
-                                </div>
-                            </div>
+<div className="card">
+    <div className="card-header p-2 bg-danger">
+        <h2 className='text-center text-light'>Game Board</h2>
+    </div>
+    {/* <Provider store={store}> */}
+        <div className="card-body">
+        
+                {
+                    getResultResult ? (
+                    getResultResult.map((e, index) => {
+                        <div className="direct-chat-msg" key={index}>
+                        <div className="direct-chat-infos clearfix">
+                            <span className="direct-chat-name float-left">{e.name}</span>
+                            <span className="direct-chat-timestamp float-right">{moment(e.createdAt.toDate()).fromNow()}</span>
                         </div>
+                        {
+                            (!e.avatar) ? (
+                                <img className="direct-chat-img" src='/blank-avatar.svg' alt="message user image" />
+                            ) :
+                                <img className="direct-chat-img" src={e.avatar} alt="message user image" />
+                        }
+                        <div className="direct-chat-text">
+                            <p className='text-center'><i className="fas fa-gamepad"></i>: <span className="badge badge-secondary"> {e.playCount}</span><i className="fas fa-thumbs-up ml-4"></i> : <span className="badge badge-success">{e.userWin}</span>  <i className="fas fa-handshake ml-4"></i> : <span className="badge badge-info">{e.userDraw}</span>  <i className="fas fa-thumbs-down ml-4"></i> : <span className="badge badge-danger">{e.userLoss}</span>  <i className="fas fa-award ml-4"></i> : <span className="badge badge-primary">{e.point}</span></p>
+                        </div>
+                        <hr />
+                    </div>
+                    })
+                ) : getResultLoading ? (
+                    <div className="text-center">
+                        <p className='text-light'>loading...</p>
+                    </div>
+                ) : (
+                    <p>{getResultError ? getResultError : "data empty"}</p>
+                )
+                }
+        </div>
+    </div>
+</div>
+                                {/* </Provider> */}
+                                
                         <div className="col-md-3">
                             <div className="card card-danger">
                                 <div className="card-header text-center">
@@ -325,5 +349,7 @@ const Account = () => {
 
     )
 }
+
+
 
 export default Account

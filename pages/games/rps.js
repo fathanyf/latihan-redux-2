@@ -24,7 +24,7 @@ const RPS = () => {
     const [name, setName] = useState('')
     const [avatar, setAvatar] = useState('')
 
-    // set button to handle user choice and generate computerchoice 
+    
 
     const handleClick = (value) => {
         setUserChoice(value)
@@ -162,7 +162,9 @@ const RPS = () => {
         router.push('/home')
     }
 
-
+    // function Account(props) {
+    //     console.warn("account", props)
+    // }
     return (
         <>
             <section className='dark-mode'>
