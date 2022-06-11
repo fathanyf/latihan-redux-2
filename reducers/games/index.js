@@ -1,5 +1,6 @@
 import { GET_GAMES } from '../../actions/GamesAction'
-import { GET_GAME_BOARD } from '../../actions/GamesAction'
+import { GET_RESULT } from '../../actions/GamesAction'
+import { GET_RESULT_BOARD } from '../../actions/GamesAction'
 
 // create reducer for game list component
 
@@ -7,6 +8,20 @@ const initialState = {
     getGamesResult: false,
     getGamesLoading: false,
     getGamesError: false,
+
+    getResult: {
+        data: {
+            playCount: '',
+            win: '',
+            draw: '',
+            lost: '',
+            point: ''
+        },
+        id: ''
+    },
+
+    getTotalScore: 0,
+    playCount: 0,
 }
 
 const gamesReducer = (state = initialState, action) => {
@@ -18,6 +33,20 @@ const gamesReducer = (state = initialState, action) => {
                 getGamesLoading: action.payload.loading,
                 getGamesError: action.payload.errorMessage
             }
+            case GET_RESULT:
+                return {
+                    ...state,
+                    getResultResult: action.payload.data,
+                    getResultLoading: action.payload.loading,
+                    getResultError: action.payload.errorMessage
+                }
+            case GET_RESULT_BOARD:
+                    return {
+                        ...state,
+                        getResultBoardResult: action.payload.data,
+                        getResultBoardLoading: action.payload.loading,
+                        getResultBoardError: action.payload.errorMessage
+                        }
             default:
                 return state
             }

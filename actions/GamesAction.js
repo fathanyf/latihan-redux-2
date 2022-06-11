@@ -1,6 +1,6 @@
 export const GET_GAMES = 'GET_GAMES'
 export const GET_RESULT_BOARD = 'GET_RESULT_BOARD'
-// export const GET_GAME_BOARD = 'GET_GAME_BOARD' 
+export const GET_RESULT = 'GET_RESULT'
 import { db } from '../config/firebase'
 import { getDocs, collection } from 'firebase/firestore'
 
@@ -50,7 +50,7 @@ export const get_games = () => {
 }
 
 export const getResult = () => {
-    console.log("masuk result");
+    console.log("1. masuk result");
   return (dispatch) => {
 
       //loading

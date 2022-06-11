@@ -9,8 +9,7 @@ import { toast } from 'react-toastify'
 import { bindActionCreators } from 'redux'
 import { db } from '../../config/firebase'
 import { UserAuth } from '../../context/AuthContext'
-// import { actionCreators } from '../../reducers/ResultReducers'
-import { getResult } from '../../actions/PostResultAction'
+import { getResult } from '../../actions/GamesAction'
 import GameBoard from '../../components/gamecomponents/GameBoard'
 
 
@@ -129,7 +128,7 @@ const Account = () => {
     }, [])
 
 //redux result
-        const { getResultResult, getResultLoading, getResultError } = useSelector((state) => state.resultReducer)
+        const { getResultResult, getResultLoading, getResultError } = useSelector((state) => state.gamesReducer)
         const dispatch = useDispatch()
 
     useEffect(() => {
@@ -225,14 +224,14 @@ const Account = () => {
                         </div>
                         
                         <div className="col-md-6">
-{/* <GameBoard>
-
-</GameBoard> */}
 <div className="card">
     <div className="card-header p-2 bg-danger">
         <h2 className='text-center text-light'>Game Board</h2>
     </div>
     {/* <Provider store={store}> */}
+    {/* <GameBoard>
+
+    </GameBoard> */}
         <div className="card-body">
         
                 {

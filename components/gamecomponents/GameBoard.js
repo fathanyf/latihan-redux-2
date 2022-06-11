@@ -5,7 +5,7 @@ import moment from "moment";
 
 const GameBoard = () => {
     
-    const { getResultBoardResult,  getResultBoardLoading, getResultBoardError } = useSelector((state) => state.resultReducer)
+    const { getResultBoardResult,  getResultBoardLoading, getResultBoardError } = useSelector((state) => state.gamesReducer)
     const dispatch = useDispatch()
 
     useEffect(() => {
