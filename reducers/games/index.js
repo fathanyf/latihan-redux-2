@@ -1,4 +1,5 @@
 import { GET_GAMES } from '../../actions/GamesAction'
+import { GET_GAME_BOARD } from '../../actions/GamesAction'
 
 // create reducer for game list component
 

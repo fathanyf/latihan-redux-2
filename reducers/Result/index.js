@@ -1,4 +1,4 @@
-import { GET_RESULT } from "../../actions/PostResultAction" 
+import { GET_RESULT, GET_RESULT_BOARD } from "../../actions/PostResultAction" 
 
 // create reducer for game list component
 
@@ -17,6 +17,13 @@ const resultReducer = (state = initialState, action) => {
                 getResultLoading: action.payload.loading,
                 getResultError: action.payload.errorMessage
             }
+            case GET_RESULT_BOARD:
+                return {
+                    ...state,
+                    getResultBoardResult: action.payload.data,
+                    getResultBoardLoading: action.payload.loading,
+                    getResultBoardError: action.payload.errorMessage
+                    }
             default:
                 return state
             }
